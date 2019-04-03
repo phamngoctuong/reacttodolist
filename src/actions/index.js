@@ -9,9 +9,3 @@ export const closeForm = () => {
         type: types.CLOSE_FORM
     }
 }
-export const saveTask = (task) => {
-    return {
-        type: types.SAVE_TASK,
-        task
-    }
-}

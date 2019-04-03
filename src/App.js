@@ -35,8 +35,7 @@ class App extends Component {
 }
 var mapStateToProps = (state) => {
     return {
-        isDisplayForm: state.isDisplayForm,
-        itemEditing: state.itemEditing
+        isDisplayForm: state.isDisplayForm
     }
 };
 var mapDispatchToProps = (dispatch, props) => {
