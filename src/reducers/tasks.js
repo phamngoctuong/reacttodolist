@@ -14,11 +14,13 @@ var data = JSON.parse(localStorage.getItem('tasks'));
 var initialState = data ? data : [];
 var myReducer = (state=  initialState, action) => {
 	switch (action.type) {
+		case types.LIST_ALL :
+			return state;
 		case types.SAVE_FORM :
 			var task = {
 				id: action.task.id,
 				name: action.task.name,
-				status: action.task.status
+				status : (action.task.status === 'true' || action.task.status === true) ? true : false
 			};
 			if(!task.id) {
 				task.id = randomString(12);

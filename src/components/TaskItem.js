@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import * as actions from './../actions/index';
 class TaskItem extends Component {
+    showStatus(){
+        return (
+           <span
+                className={ this.props.task.status ? 'label label-danger' : 'label label-info' }
+            >{ this.props.task.status === true ? 'Kích Hoạt' : 'Ẩn' }</span>
+        );
+    };
     render() {
         return (
             <tr>
                 <td>{this.props.index}</td>
-                <td></td>
-                <td className="text-center">
-                </td>
+                <td>{this.props.task.name}</td>
+                <td className="text-center">{this.showStatus()}</td>
                 <td className="text-center">
                     <button
                         type="button"

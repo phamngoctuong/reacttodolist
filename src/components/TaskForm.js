@@ -16,7 +16,15 @@ class TaskForm extends Component {
     onSaveForm = (event) => {
         event.preventDefault();
         this.props.onSaveForm(this.state);
-    }
+    };
+    onChangeHandle = (event) => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.type === 'checkbox' ? target.checked: target.value;
+        this.setState({
+            [name]: value
+        })
+    };
     render() {
         if(!this.props.isDisplayForm) return null;
         return (
@@ -37,13 +45,17 @@ class TaskForm extends Component {
                             <input
                                 type = "text"
                                 className = "form-control"
-                                name = "name"
+                                 name = "name"
+                                 value = {this.state.name}
+                                 onChange = {this.onChangeHandle}
                             />
                         </div>
                         <label>Trạng Thái :</label>
                         <select
                             className = "form-control"
                             name = "status"
+                            value = {this.state.status}
+                            onChange = {this.onChangeHandle}
                         >
                             <option value={true}>Kích Hoạt</option>
                             <option value={false}>Ẩn</option>
