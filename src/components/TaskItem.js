@@ -17,6 +17,9 @@ class TaskItem extends Component {
         this.props.onOpenForm();
         this.props.onEditForm(this.props.task);
     };
+    onDeleteForm = () => {
+        this.props.onDeleteForm(this.props.task.id);   
+    }
     render() {
         return (
             <tr>
@@ -31,9 +34,9 @@ class TaskItem extends Component {
                      >
                         <span className="fa fa-pencil mr-5"></span>Sửa
                     </button>
-                    &nbsp;
                     <button
                         type="button" className="btn btn-danger"
+                        onClick = {this.onDeleteForm}
                     >
                         <span className="fa fa-trash mr-5"></span>Xóa
                     </button>
@@ -43,6 +46,9 @@ class TaskItem extends Component {
     }
 }
 var mapStateToProps = (state) => {
+    return {
+        
+    }
 };
 var mapDispatchToProps = (dispatch, props) => {
     return {
@@ -54,6 +60,9 @@ var mapDispatchToProps = (dispatch, props) => {
         },
         onUpdateStatus: (id) => {
             dispatch(actions.updateStatus(id));  
+        },
+        onDeleteForm: (id) => {
+            dispatch(actions.deleteForm(id));  
         }
     }
 }

@@ -54,6 +54,13 @@ var myReducer = (state=  initialState, action) => {
 			localStorage.setItem('tasks', JSON.stringify(state));
 			return [...state];
 			break;
+		case types.DELETE_FORM:
+			id = action.id;
+            index = findIndex(state, id);
+            state.splice(index, 1);
+            localStorage.setItem('tasks', JSON.stringify(state));
+            return [...state];
+			break;
 		default:
 			return state;
 			break;

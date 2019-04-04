@@ -32,3 +32,9 @@ export const updateStatus = (id) => {
 		id
 	}
 }
+export const deleteForm = (id) => {
+	return {
+		type: types.DELETE_FORM,
+		id
+	}
+}
