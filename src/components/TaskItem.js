@@ -6,9 +6,13 @@ class TaskItem extends Component {
         return (
            <span
                 className={ this.props.task.status ? 'label label-danger' : 'label label-info' }
+                onClick = {this.onUpdateStatus}
             >{ this.props.task.status === true ? 'Kích Hoạt' : 'Ẩn' }</span>
         );
     };
+    onUpdateStatus = () => {
+        this.props.onUpdateStatus(this.props.task.id);
+    }
     onEditForm = () => {
         this.props.onOpenForm();
         this.props.onEditForm(this.props.task);
@@ -39,7 +43,6 @@ class TaskItem extends Component {
     }
 }
 var mapStateToProps = (state) => {
-
 };
 var mapDispatchToProps = (dispatch, props) => {
     return {
@@ -48,6 +51,9 @@ var mapDispatchToProps = (dispatch, props) => {
         },
         onEditForm: (task) => {
             dispatch(actions.editForm(task));
+        },
+        onUpdateStatus: (id) => {
+            dispatch(actions.updateStatus(id));  
         }
     }
 }

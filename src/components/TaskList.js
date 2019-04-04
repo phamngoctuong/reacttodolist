@@ -7,7 +7,7 @@ class TaskList extends Component {
         var {tasks} = this.props;
         var elmTasks = tasks.map((task, index) => {
             return (
-                <TaskItem key={task.id} task={task} index={index}/>
+                <TaskItem key={task.id} task={task} index={index}></TaskItem>
             )
         });
         return (
