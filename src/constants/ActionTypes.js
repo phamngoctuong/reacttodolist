@@ -4,3 +4,4 @@ export const CLOSE_FORM = 'CLOSE_FORM';
 export const SAVE_FORM = 'SAVE_FORM';
 export const LIST_ALL = 'LIST_ALL';
 export const EDIT_FORM = 'EDIT_FORM';
+export const OPEN_FORM = 'OPEN_FORM';

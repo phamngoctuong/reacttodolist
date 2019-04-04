@@ -10,6 +10,15 @@ function randomString(length) {
     }
     return str;
 };
+var findIndex = (tasks,id) => {
+	var result = -1;
+	tasks.forEach((task, index) => {
+	  	if(task.id === id) {
+	  		return result = index;
+	  	}
+	});
+	return result;
+};
 var data = JSON.parse(localStorage.getItem('tasks'));
 var initialState = data ? data : [];
 var myReducer = (state=  initialState, action) => {
@@ -17,6 +26,7 @@ var myReducer = (state=  initialState, action) => {
 		case types.LIST_ALL :
 			return state;
 		case types.SAVE_FORM :
+			var index = -1;
 			var task = {
 				id: action.task.id,
 				name: action.task.name,
@@ -25,6 +35,9 @@ var myReducer = (state=  initialState, action) => {
 			if(!task.id) {
 				task.id = randomString(12);
 				state.push(task);
+			}else {
+				index = findIndex(state,task.id);
+				state[index] = task;
 			};
 			localStorage.setItem('tasks', JSON.stringify(state));
 			return [...state];

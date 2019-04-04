@@ -21,3 +21,8 @@ export const editForm = (task) => {
 		task
 	}
 }
+export const openForm = () => {
+	return {
+		type: types.OPEN_FORM,
+	}
+}

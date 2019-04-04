@@ -9,6 +9,10 @@ class TaskItem extends Component {
             >{ this.props.task.status === true ? 'Kích Hoạt' : 'Ẩn' }</span>
         );
     };
+    onEditForm = () => {
+        this.props.onOpenForm();
+        this.props.onEditForm(this.props.task);
+    };
     render() {
         return (
             <tr>
@@ -19,6 +23,7 @@ class TaskItem extends Component {
                     <button
                         type="button"
                         className="btn btn-warning"
+                        onClick = {this.onEditForm}
                      >
                         <span className="fa fa-pencil mr-5"></span>Sửa
                     </button>
@@ -37,6 +42,13 @@ var mapStateToProps = (state) => {
 
 };
 var mapDispatchToProps = (dispatch, props) => {
-
+    return {
+        onOpenForm: () => {
+            dispatch(actions.openForm());
+        },
+        onEditForm: (task) => {
+            dispatch(actions.editForm(task));
+        }
+    }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);
