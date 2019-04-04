@@ -15,3 +15,9 @@ export const saveForm = (task) => {
 		task
 	}
 }
+export const editForm = (task) => {
+	return {
+		type: types.EDIT_FORM,
+		task
+	}
+}

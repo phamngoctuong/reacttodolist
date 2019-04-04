@@ -12,11 +12,21 @@ class TaskForm extends Component {
     };
     onCloseForm = () => {
         this.props.onCloseForm();
+        this.onClearForm();
     };
     onSaveForm = (event) => {
         event.preventDefault();
         this.props.onSaveForm(this.state);
+        this.props.onCloseForm();
+        this.onClearForm();
     };
+    onClearForm = () => {
+        this.setState({
+            id: '',
+            name: '',
+            status:false
+        });
+    }
     onChangeHandle = (event) => {
         var target = event.target;
         var name = target.name;
@@ -64,7 +74,7 @@ class TaskForm extends Component {
                             <button type="submit" className="btn btn-warning">
                                 <span className="fa fa-plus mr-5"></span>Lưu Lại
                             </button>
-                            <button type="button" className="btn btn-danger">
+                            <button type="button" className="btn btn-danger" onClick={this.onClearForm}>
                                 <span className="fa fa-close mr-5"></span>Hủy Bỏ
                             </button>
                         </div>
@@ -76,7 +86,8 @@ class TaskForm extends Component {
 }
 var mapStateToProps = (state) => {
     return {
-        isDisplayForm: state.isDisplayForm
+        isDisplayForm: state.isDisplayForm,
+        itemEditing: state.itemEditing
     }
 };
 var mapDispatchToProps = (dispatch, props) => {
