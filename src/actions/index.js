@@ -38,3 +38,9 @@ export const deleteForm = (id) => {
 		id
 	}
 }
+export const filterTable = (filter) => {
+	return {
+		type: types.FILTER_TABLE,
+		filter
+	}
+}

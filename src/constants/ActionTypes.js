@@ -7,3 +7,4 @@ export const EDIT_FORM = 'EDIT_FORM';
 export const OPEN_FORM = 'OPEN_FORM';
 export const UPDATE_STATUS = 'UPDATE_STATUS';
 export const DELETE_FORM = 'DELETE_FORM';
+export const FILTER_TABLE = 'FILTER_TABLE';
