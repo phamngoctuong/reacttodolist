@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import * as actions from './../actions/index';
 class TaskForm extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            id: '',
+            name: '',
+            status: false
+        };
+    };
     onCloseForm = () => {
         this.props.onCloseForm();
     };
+    onSaveForm = (event) => {
+        event.preventDefault();
+        this.props.onSaveForm(this.state);
+    }
     render() {
         if(!this.props.isDisplayForm) return null;
         return (
@@ -19,7 +31,7 @@ class TaskForm extends Component {
                     </h3>
                 </div>
                 <div className="panel-body">
-                    <form onSubmit={this.onSave} >
+                    <form onSubmit={this.onSaveForm} >
                         <div className="form-group">
                             <label>Tên :</label>
                             <input
@@ -39,7 +51,7 @@ class TaskForm extends Component {
                         <div className="text-center">
                             <button type="submit" className="btn btn-warning">
                                 <span className="fa fa-plus mr-5"></span>Lưu Lại
-                            </button>&nbsp;
+                            </button>
                             <button type="button" className="btn btn-danger">
                                 <span className="fa fa-close mr-5"></span>Hủy Bỏ
                             </button>
@@ -58,7 +70,10 @@ var mapStateToProps = (state) => {
 var mapDispatchToProps = (dispatch, props) => {
     return {
         onCloseForm: () => {
-            dispatch(actions.closeForm())
+            dispatch(actions.closeForm());
+        },
+        onSaveForm: (task) => {
+            dispatch(actions.saveForm(task));
         }
     }
 }

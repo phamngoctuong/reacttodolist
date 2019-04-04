@@ -5,7 +5,7 @@ class TaskItem extends Component {
     render() {
         return (
             <tr>
-                <td></td>
+                <td>{this.props.index}</td>
                 <td></td>
                 <td className="text-center">
                 </td>
