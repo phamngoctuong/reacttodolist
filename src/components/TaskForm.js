@@ -10,13 +10,26 @@ class TaskForm extends Component {
             status: false
         };
     };
+    componentWillMount() {
+        this.setState({
+
+        });
+    };
     onCloseForm = () => {
         this.props.onCloseForm();
     };
     onSaveForm = (event) => {
         event.preventDefault();
         this.props.onSaveForm(this.state);
-    }
+    };
+    onChangeHandle = (event) => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.type === 'checkbox'  ? target.checked : target.value;
+        this.setState({
+            [name]: value
+        });
+    };
     render() {
         if(!this.props.isDisplayForm) return null;
         return (
@@ -38,12 +51,16 @@ class TaskForm extends Component {
                                 type = "text"
                                 className = "form-control"
                                 name = "name"
+                                value = {this.state.name}
+                                onChange = {this.onChangeHandle}
                             />
                         </div>
                         <label>Trạng Thái :</label>
                         <select
                             className = "form-control"
                             name = "status"
+                            value = {this.state.status}
+                            onChange = {this.onChangeHandle}
                         >
                             <option value={true}>Kích Hoạt</option>
                             <option value={false}>Ẩn</option>
