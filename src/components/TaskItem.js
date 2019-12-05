@@ -1,27 +1,81 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from './../actions/index';
+
 class TaskItem extends Component {
-    onEdit = (id) => {
-        this.props.onEdit(id)
+
+    showStatusElement(){
+        return (
+            <span
+                className={ this.props.task.status ? 'label label-danger' : 'label label-info' }
+                onClick={ this.onUpdateStatus }
+            >{ this.props.task.status === true ? 'Kích Hoạt' : 'Ẩn' }</span>
+        );
     }
+
+    onUpdateStatus = () => {
+        this.props.onUpdateStatus(this.props.task.id);
+    }
+
+    onDeleteItem = () => {
+        this.props.onDeleteTask(this.props.task.id);
+        this.props.onCloseForm();
+    }
+
+    onEditTask = () => {
+        this.props.onOpenForm();
+        this.props.onEditTask(this.props.task);
+    }
+
     render() {
-        var {index, task} = this.props;
         return (
             <tr>
-                <td>{index}</td>
-                <td>{task.name}</td>
+                <td>{ this.props.index }</td>
+                <td>{ this.props.task.name }</td>
                 <td className="text-center">
-                    <span className="label label-info">{task.status === true ? 'Kích hoạt' : 'Ẩn' }</span>
+                    { this.showStatusElement() }
                 </td>
                 <td className="text-center">
-                    <button type="button" className="btn btn-warning" onClick={()=>this.onEdit(task.id)}>
+                    <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={ this.onEditTask }>
                         <span className="fa fa-pencil mr-5"></span>Sửa
                     </button>
-                    <button type="button" className="btn btn-danger">
+                    &nbsp;
+                    <button
+                        type="button" className="btn btn-danger"
+                        onClick={ this.onDeleteItem }>
                         <span className="fa fa-trash mr-5"></span>Xóa
                     </button>
                 </td>
             </tr>
-        )
+        );
     }
 }
-export default TaskItem;
+
+const mapStateToProps = state => {
+    return {};
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onCloseForm : () => {
+            dispatch(actions.closeForm());
+        },
+        onOpenForm : () => {
+            dispatch(actions.openForm());
+        },
+        onEditTask : (task) => {
+            dispatch(actions.editTask(task));
+        },
+        onUpdateStatus: (id) => {
+            dispatch(actions.updateStatus(id))
+        }, 
+        onDeleteTask: (id) => {
+           dispatch(actions.deleteTask(id)) 
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

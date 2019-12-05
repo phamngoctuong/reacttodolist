@@ -1,68 +1,113 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
+import {connect} from 'react-redux';
+import * as actions from './../actions/index';
 class TaskList extends Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      filterName: '',
-      filterStatus: -1
-    }
-  }
-  onEdit = (id) => {
-    this.props.onEdit(id)
-  }
-  onChange = (event)=>{
-    var target = event.target;
-    var name = target.name;
-    var value = target.value;
-    var filter = {
-      name : name === 'filterName' ? value : this.state.filterName,
-      status : name === 'filterStatus' ? value : this.state.filterStatus
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterName: '',
+            filterStatus: -1
+        }
     };
-    this.props.onFilterTable(filter);
-    this.setState({
-      [name]: value
-    });
-  }
-  render() {
-    var { tasks } = this.props;
-    var {filterName,filterStatus} = this.state;
-    var elm = tasks.map((task,index)=>{
-      return  <TaskItem key={index} index={index+1} task={task} onEdit={this.onEdit}></TaskItem>
-    });
-    return (
-      <div className="row mt-15">
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <table className="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th className="text-center">STT</th>
-                <th className="text-center">Tên</th>
-                <th className="text-center">Trạng Thái</th>
-                <th className="text-center">Hành Động</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td>
-                  <input type="text" className="form-control" name="filterName" onChange={this.onChange} value={filterName}/>
-                </td>
-                <td>
-                  <select className="form-control" name="filterStatus" onChange={this.onChange} value={filterStatus}>
-                    <option value="-1">Tất Cả</option>
-                    <option value="0">Ẩn</option>
-                    <option value="1">Kích Hoạt</option>
-                  </select>
-                </td>
-                <td></td>
-              </tr>
-              {elm}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    )
-  }
+    onChange = (event) => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.type === 'checkbox' ? target.checked : target.value;
+        var filter = {
+            name : name === 'filterName' ? value : this.state.filterName,
+            status : name === 'filterStatus' ? value : this.state.filterStatus
+        };
+        this.props.onFilterTable(filter);
+        this.setState({
+            [name] : value
+        });
+    };
+    render() {
+        var {tasks, filterTable, keyword, sort} = this.props;
+        var {filterName, filterStatus} = this.state;
+        if(filterTable.name){
+        tasks = tasks.filter((task) => {
+            return task.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) !== -1
+            });
+        };
+        // Status
+        tasks = tasks.filter((task) => {
+            if(filterTable.status === -1){
+                return task;
+            }else{
+                return task.status
+                === (filterTable.status === 1 ? true : false);
+            }
+        });
+        var elmTasks = tasks.map((task, index) => {
+            return (
+                <TaskItem
+                    key={task.id}
+                    task={task}
+                    index={index + 1}
+                />
+            )
+        });
+        return (
+            <div className="row mt-15">
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <table className="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th className="text-center">STT</th>
+                                <th className="text-center">Tên</th>
+                                <th className="text-center">Trạng Thái</th>
+                                <th className="text-center">Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="filterName"
+                                        value = {filterName}
+                                        onChange = {this.onChange}
+                                    />
+                                </td>
+                                <td>
+                                    <select
+                                        className="form-control"
+                                        name="filterStatus"
+                                        value = {filterStatus}
+                                        onChange = {this.onChange}
+                                    >
+                                        <option value={-1}>Tất Cả</option>
+                                        <option value={0}>Ẩn</option>
+                                        <option value={1}>Kích Hoạt</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                            </tr>
+						  {elmTasks}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
 }
-export default TaskList;
+var mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks,
+        filterTable : state.filterTable,
+        keyword : state.search,
+        sort : state.sort
+    }
+}
+var mapDispatchToProps = (dispatch, props) => {
+    return {
+        onFilterTable : (filter) => {
+            dispatch(actions.filterTask(filter));
+        }
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
